@@ -1,15 +1,14 @@
 package qa.nchunakova.tests.demoqa;
 
+import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.hidden;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
-import static java.lang.String.format;
 
 @Tag("demoqa")
 public class FillFormWithTestDataTests extends TestBase  {
@@ -21,6 +20,11 @@ public class FillFormWithTestDataTests extends TestBase  {
             userNumber = "0123456789",
             currentAddress = "My street 2/1";
 
+
+    @Owner("nchunakova")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature("Заполнение формы регистрации и проверка результата (feature)")
+    @Story("Учёт студентов (user story)")
     @Test
     @DisplayName("Successful fill registration test")
     void fillFormTest(){
@@ -57,8 +61,8 @@ public class FillFormWithTestDataTests extends TestBase  {
                     text(lastName), text(gender), text(userNumber), text("30 July,2008"), text("English"),
                     text("Reading"), text("gymnocalycium-monvillei-mm814.jpg"), text(currentAddress),
                     text("Rajasthan Jaiselmer"));
-            $("#closeLargeModal").click();
-            $(".modal-content").shouldBe(hidden);
+            $("#closeLargeModal").shouldBe(visible);
+            //$(".modal-content").shouldBe(hidden);
         });
     }
 }
