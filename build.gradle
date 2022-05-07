@@ -10,34 +10,52 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation(
-            "com.codeborne:selenide:6.4.0",
-            "com.github.javafaker:javafaker:1.0.2",
-            "org.junit.jupiter:junit-jupiter:5.8.2",
-            "org.slf4j:slf4j-simple:1.7.36",
-            'io.qameta.allure:allure-selenide:2.17.3'
-    )
-}
+def allureVersion = "2.17.3",
+    selenideVersion = "6.4.0",
+    junitVersion = "5.8.2",
+    slf4jVersion = "1.7.32"
 
 allure {
     report {
-        version.set("2.17.3") //версия Allure Report (https://github.com/allure-framework/allure2)
+        version.set(allureVersion)
     }
     adapter {
-        aspectjWeaver.set(true) // обработка аннотации @Step
+        aspectjWeaver.set(true)
         frameworks {
             junit5 {
-                adapterVersion.set("2.17.3") //версия Allure JUnit5 (https://github.com/allure-framework/allure-java - все java интеграции)
+                adapterVersion.set(allureVersion)
             }
         }
     }
+}
+
+dependencies {
+    testImplementation(
+            "com.codeborne:selenide:$selenideVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion"
+    )
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-test {
+tasks.withType(Test) {
     useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+task demoqa_tests(type: Test) {
+    useJUnitPlatform{
+        includeTags "demoqa"
+//        excludeTags "simple"
+    }
 }
