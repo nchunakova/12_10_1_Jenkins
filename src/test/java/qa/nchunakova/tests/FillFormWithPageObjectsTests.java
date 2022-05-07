@@ -1,10 +1,17 @@
 package qa.nchunakova.tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
+import io.qameta.allure.*;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import qa.nchunakova.pages.RegistrationFormPage;
+
+import java.nio.charset.StandardCharsets;
 
 import static java.lang.String.format;
 
@@ -36,11 +43,17 @@ public class FillFormWithPageObjectsTests {
         Configuration.browserSize = "1980x1080";
     }
 
+    @Owner("nchunakova")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature("Заполнение, отправка и проверка данных пользователя (feature)")
+    @Story("Регистрация пользователей (user story)")
     @Test
+    @DisplayName("Заполнение формы регистрации")
     void fillFormTest(){
 
+        SelenideLogger.addListener("allure", new AllureSelenide());
         registrationFormPage.openPage()
-                .setFirstName(firstName) // reuse, cause RegistrationFormPage methods aren't void
+                .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(userEmail)
                 .setGender(gender)
