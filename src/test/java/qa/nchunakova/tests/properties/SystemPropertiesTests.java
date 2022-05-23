@@ -47,6 +47,7 @@ public class SystemPropertiesTests {
                 chrome
                 100
                 1920x1080
+
            gradle clean test5 -Dbrowser=opera -Dversion=99 -DbrowserSize=300x300
                 opera
                 99
